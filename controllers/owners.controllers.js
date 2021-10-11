@@ -20,8 +20,13 @@ exports.create = (req, res, callback) => {
 
   // Validate request
   if (!req.body.name || !req.body.surname || !req.body.email || !req.body.password) {
-    res.status(400).write({
+    res.status(400).send({
       message: "Content can not be empty!"
+    });
+    return;
+  }else if(req.body.name.length < 3 || req.body.surname.length < 3 || req.body.email.length < 3 || req.body.password.length < 3){
+    res.status(400).send({
+      message: "Content has too few characters!"
     });
     return;
   }
