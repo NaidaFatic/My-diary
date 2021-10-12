@@ -7,5 +7,6 @@ const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.owners = require("./owners.model.js")(mongoose);
+db.diaries = require("./diaries.model.js")(mongoose);
 
 module.exports = db;

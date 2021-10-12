@@ -52,7 +52,7 @@ exports.create = (req, res, callback) => {
         });
         return;
       } else {
-        // Save Tutorial in the database
+        // Save owner in the database
         owner
           .save(owner)
           .then(data => {
@@ -88,7 +88,7 @@ exports.findAll = (req, res) => {
     }
   } : {};
 
-  Owners.find(condition)
+  Owners.find(condition) // todo find by surname and name
     .then(data => {
       res.send(data);
     })
@@ -120,8 +120,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Find a single Owners with an name
-
+// Login
 exports.login = (req, res) => {
   const emailReq = req.body.email;
   const passwordReq = req.body.password;
