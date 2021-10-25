@@ -1,10 +1,9 @@
 const db = require("../models");
-const config = require("../config/env.config.js");
 const Posts = db.posts;
 const Diaries = db.diaries;
 
 // Create a new post
-exports.create = (req, res, callback) => {
+exports.create = (req, res) => {
   // Validate request
   if (!req.body.ownerID) {
     res.status(400).send({
@@ -33,7 +32,7 @@ exports.create = (req, res, callback) => {
         })
         .catch(err => {
           res.status(500).send({
-            message: err.message || "Some error occurred while creating the profile."
+            message: err.message || "Some error occurred while creating the post."
           });
         });
     })

@@ -9,5 +9,6 @@ db.url = dbConfig.url;
 db.owners = require("./owners.model.js")(mongoose);
 db.diaries = require("./diaries.model.js")(mongoose);
 db.posts = require("./posts.model.js")(mongoose);
+db.comments = require("./comments.model.js")(mongoose);
 
 module.exports = db;
