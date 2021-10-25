@@ -205,3 +205,5 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+//todo friends and friends requests
