@@ -24,7 +24,7 @@ exports.create = (req, res, callback) => {
       message: "Content can not be empty!"
     });
     return;
-  }else if(req.body.name.length < 3 || req.body.surname.length < 3 || req.body.email.length < 3 || req.body.password.length < 3){
+  } else if (req.body.name.length < 3 || req.body.surname.length < 3 || req.body.email.length < 3 || req.body.password.length < 3) {
     res.status(400).send({
       message: "Content has too few characters!"
     });
@@ -80,17 +80,27 @@ exports.create = (req, res, callback) => {
 
 // Retrieve all Owners from the database.
 exports.findAll = (req, res) => {
-  const name = req.query.name;
-  var condition = name ? {
+  const name = req.query.name.split(' ');
+  const firstName = name[0];
+  const lastName = name[1];
+
+  var conditionFirstName = firstName ? {
     name: {
-      $regex: new RegExp(name),
+      $regex: new RegExp(firstName),
       $options: "i"
     }
   } : {};
 
-  Owners.find(condition) // todo find by surname and name
+  var conditionLastName = lastName ? {
+    surname: {
+      $regex: new RegExp(lastName),
+      $options: "i"
+    }
+  } : {};
+
+  Owners.find({$or:[conditionFirstName, conditionLastName]})
     .then(data => {
-      res.send(data);
+        res.send(data);
     })
     .catch(err => {
       res.status(500).send({
