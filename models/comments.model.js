@@ -13,7 +13,8 @@ module.exports = mongoose => {
             ownerID: {
                 type: mongoose.ObjectId,
                 required: true
-            }
+            },
+            replay: [mongoose.ObjectId]
         }, {
             timestamps: true
         })
