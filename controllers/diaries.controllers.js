@@ -22,25 +22,17 @@ exports.create = (req, res) => {
       ownerID: req.body.ownerID
     })
     .then(data => {
-      if (data) {
-        res.status(400).send({
-          message: "Diary alredy created with this account!"
-        });
-        return;
-      } else {
-        // Save diary in the database
-        diary
-          .save(diary)
-          .then(data => {
-            res.send(data);
-          })
-          .catch(err => {
-            res.status(500).send({
-              message: err.message || "Some error occurred while creating the diary."
-            });
+      // Save diary in the database
+      diary
+        .save(diary)
+        .then(data => {
+          res.send(data);
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the diary."
           });
-      }
-
+        });
     })
     .catch(err => {
       res.status(500).send({
@@ -81,6 +73,26 @@ exports.findOne = (req, res) => {
         .status(500)
         .send({
           message: "Error retrieving diary with id=" + id
+        });
+    });
+};
+
+// Find a diary by owner
+exports.findByOwner = (req, res) => {
+
+  Diaries.find({ownerID : req.params.id})
+    .then(data => {
+      if (!data)
+        res.status(404).send({
+          message: "Not found diary with id " + id
+        });
+      else res.send(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({
+          message: "Error retrieving diary with owner id=" + id
         });
     });
 };
