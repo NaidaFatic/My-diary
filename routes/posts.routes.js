@@ -14,9 +14,12 @@ module.exports = app => {
 
     // Retrieve a posts by one owner with id
     router.get("/owner", posts.findByOwner);
-   
+
     // Update a post with id
     router.put("/:id", posts.update);
+
+    // Update a posts like with id
+    router.put("/likes/:id", posts.likes);
 
     // Delete a post with id
     router.delete("/:id", posts.delete);

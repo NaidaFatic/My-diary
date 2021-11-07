@@ -171,4 +171,62 @@ exports.delete = (req, res) => {
     });
 };
 
-//add likes
+// Update a Post by the id in the request
+exports.likes = (req, res) => {
+
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!"
+    });
+  }
+
+  const id = req.body.id;
+
+  Posts.findById(id)
+    .then(data => {
+      if (!data)
+        res.status(404).send({
+          message: "Not found posts with id " + id
+        });
+      else {
+        if (!data.likes.includes(req.params.id)) {
+          Posts.findOneAndUpdate({
+              _id: id
+            }, {
+              $push: {
+                likes: req.params.id
+              }
+            })
+            .then(data => {
+              if (!data) {
+                res.status(404).send({
+                  message: `Cannot update post with id=${id}. Maybe post was not found!`
+                });
+              } else {
+                res.send({
+                  message: "Liked"
+                });
+              }
+            })
+            .catch(err => {
+              res.status(500).send({
+                message: "Error updating post"
+              });
+            });
+        } else {
+          res.send({
+            message: "Liked"
+          });
+        }
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({
+          message: "Error retrieving posts with id " + id
+        });
+    });
+
+
+};
